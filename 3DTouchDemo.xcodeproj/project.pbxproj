@@ -18,6 +18,7 @@
 		3E759C7C1EA714B900139E4D /* ThreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E759C7B1EA714B900139E4D /* ThreeViewController.m */; };
 		3E759C7F1EA714DB00139E4D /* MainTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E759C7E1EA714DB00139E4D /* MainTabBarViewController.m */; };
 		3E759C821EA735FF00139E4D /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E759C811EA735FE00139E4D /* DetailViewController.m */; };
+		3E932B891EA8456F0079BD61 /* service_terms_chs.html in Resources */ = {isa = PBXBuildFile; fileRef = 3E932B881EA8456F0079BD61 /* service_terms_chs.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		3E759C7E1EA714DB00139E4D /* MainTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarViewController.m; sourceTree = "<group>"; };
 		3E759C801EA735FE00139E4D /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		3E759C811EA735FE00139E4D /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		3E932B881EA8456F0079BD61 /* service_terms_chs.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = service_terms_chs.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				3E759C781EA714B100139E4D /* TwoViewController.m */,
 				3E759C7A1EA714B900139E4D /* ThreeViewController.h */,
 				3E759C7B1EA714B900139E4D /* ThreeViewController.m */,
+				3E932B881EA8456F0079BD61 /* service_terms_chs.html */,
 				3E759C721EA7120900139E4D /* kejian@2x.png */,
 				3E759C641EA70A7D00139E4D /* Main.storyboard */,
 				3E759C671EA70A7D00139E4D /* Assets.xcassets */,
@@ -163,6 +166,7 @@
 			files = (
 				3E759C731EA7120900139E4D /* kejian@2x.png in Resources */,
 				3E759C6B1EA70A7D00139E4D /* LaunchScreen.storyboard in Resources */,
+				3E932B891EA8456F0079BD61 /* service_terms_chs.html in Resources */,
 				3E759C681EA70A7D00139E4D /* Assets.xcassets in Resources */,
 				3E759C661EA70A7D00139E4D /* Main.storyboard in Resources */,
 			);
@@ -340,6 +344,7 @@
 				3E759C711EA70A7D00139E4D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

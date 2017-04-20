@@ -45,7 +45,31 @@
         
     } else {
         
-        NSLog(@"No");
+        UIApplicationShortcutItem *item = [launchOptions valueForKey:UIApplicationLaunchOptionsShortcutItemKey];
+        // 根据我们设置的唯一标识判断
+        if([item.type isEqualToString:@"one"]){
+            
+            MainTabBarViewController *tabbar = [MainTabBarViewController new];
+            tabbar.selectedIndex = 1;
+            self.window.rootViewController = tabbar;
+            
+        }
+        // 根据我们设置的 title 判断
+        if ([item.localizedTitle isEqual: @"个人中心"]) {
+            
+            MainTabBarViewController *tabbar = [MainTabBarViewController new];
+            tabbar.selectedIndex = 2;
+            self.window.rootViewController = tabbar;
+            
+        }
+        // 根据我们设置的唯一标识判断
+        if([item.type isEqualToString:@"three"]){
+            
+            MainTabBarViewController *tabbar = [MainTabBarViewController new];
+            tabbar.selectedIndex = 1;
+            self.window.rootViewController = tabbar;
+            
+        }
         return NO;
     }
 }
@@ -69,6 +93,14 @@
         
         MainTabBarViewController *tabbar = [MainTabBarViewController new];
         tabbar.selectedIndex = 2;
+        self.window.rootViewController = tabbar;
+        
+    }
+    // 根据我们设置的唯一标识判断
+    if([shortcutItem.type isEqualToString:@"three"]){
+        
+        MainTabBarViewController *tabbar = [MainTabBarViewController new];
+        tabbar.selectedIndex = 1;
         self.window.rootViewController = tabbar;
         
     }

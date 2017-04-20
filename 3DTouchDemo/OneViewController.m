@@ -7,11 +7,14 @@
 //
 
 #import "OneViewController.h"
+#import "DetailViewController.h"
 
 // iOS版本判断
 #define s_IOS9_OR_LATER   ( [[[UIDevice currentDevice] systemVersion] compare:@"9.0"] != NSOrderedAscending )
 
-@interface OneViewController ()<UIViewControllerPreviewingDelegate>
+@interface OneViewController ()<UIViewControllerPreviewingDelegate,UITableViewDelegate,UITableViewDataSource>
+
+@property (nonatomic, strong) UITableView *tableView;
 
 @end
 
@@ -21,53 +24,95 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    // iOS 版本要大于 9 才能注册
-    if (s_IOS9_OR_LATER) {
-        // 判断3Dtouch是否可用
-        if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable){
-            // 注册
-            [self registerForPreviewingWithDelegate:self sourceView:self.view];
-            NSLog(@"注册 3D Touch");
-        }
+    [self createTableView];
+}
+
+#pragma mark --
+#pragma mark -- createBtn
+- (void)createTableView
+{
+    
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) style:UITableViewStylePlain];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+}
+
+#pragma mark --
+#pragma mark -- TableViewDele & DataSource
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 20;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return 50;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+        
+    static NSString *homeTwoCell = @"HomeOneCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:homeTwoCell];
+    if (!cell) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:homeTwoCell];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.textLabel.text = @"3D Touch";
+    
+    // 检测3D Touch可用性 并注册
+    if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+        
+        [self registerForPreviewingWithDelegate:self sourceView:cell];
     }
     
-    // 注册预览视图的代理和来源视图
-    [self registerForPreviewingWithDelegate:(id)self sourceView:self.view];
-    
-    [self createBtn];
+    return cell;
 }
 
-- (void)createBtn
-{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/2-90, [UIScreen mainScreen].bounds.size.height/2-20, 180, 44)];
-    btn.backgroundColor = [UIColor redColor];
-    btn.layer.cornerRadius = 5;
-    [btn setTitle:@"3D Touch" forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:btn];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    DetailViewController *webVC = [DetailViewController new];
+    webVC.hidesBottomBarWhenPushed = YES;
+    webVC.titleStr = [NSString stringWithFormat:@"%ld",indexPath.row];
+    [self.navigationController pushViewController:webVC animated:YES];
 }
 
-#pragma mark - peek手势
+#pragma mark --
+#pragma mark -- peek手势
 - (nullable UIViewController *)previewingContext:(id <UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location
 {
-    UIViewController *childVC = [[UIViewController alloc] init];
-    childVC.preferredContentSize = CGSizeMake(0.0f,300.f);
-    CGRect rect = CGRectMake(10, [UIScreen mainScreen].bounds.size.height/2-100, self.view.frame.size.width - 20,200);
-    //此处的childVC相当于，demo中使用的页面ActionViewController
-    //demo是对table中cell进行peek&pop，所以对选中cell的位置及indexPath进行计算，详情见demo
-    previewingContext.sourceRect = rect;//选中框的size
-    return childVC; //返回显示页面
-}
-
-
-
-
-#pragma mark pop手势
-- (void)previewContext:(id<UIViewControllerPreviewing>)context commitViewController:(UIViewController*)vc {
+    // 转化坐标
+    location = [self.tableView convertPoint:location fromView:[previewingContext sourceView]];
+    // 根据locaton获取位置
+    NSIndexPath *path = [self.tableView indexPathForRowAtPoint:location];
+    // 根据位置获取字典数据传传入控制器
+    DetailViewController *detail = [DetailViewController new];
+    detail.titleStr = [NSString stringWithFormat:@"%ld",(long)path.row];
+    return detail;
     
-    [self showViewController:vc sender:self];
+     
+//     DetailViewController *detail = [[DetailViewController alloc] init];
+//     detail.preferredContentSize = CGSizeMake(0.0f,400.f);
+//     CGRect rect = CGRectMake(10, [UIScreen mainScreen].bounds.size.height/2-200, self.view.frame.size.width - 20,400);
+//     // 选中框的size
+//     previewingContext.sourceRect = rect;
+//     // 返回显示页面
+//     return detail;
 }
 
+#pragma mark --
+#pragma mark -- pop手势
+- (void)previewingContext:(id <UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit{
+    
+    viewControllerToCommit.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:viewControllerToCommit animated:YES];
+}
 
 @end
